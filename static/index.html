@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CT-GraphMAS Pixel Academy</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <section id="loginView" class="login-view">
+      <div class="skyline" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="login-card pixel-card">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div>
+            <p class="eyebrow">Pixel Learning System</p>
+            <h1>CT-GraphMAS</h1>
+            <p>知识图谱增强多智能体编程辅导系统</p>
+          </div>
+        </div>
+        <form id="loginForm" class="login-form">
+          <label>
+            用户名
+            <input id="loginUsername" value="student" autocomplete="username" />
+          </label>
+          <label>
+            密码
+            <input id="loginPassword" value="student123" type="password" autocomplete="current-password" />
+          </label>
+          <button class="primary-btn" type="submit">登录系统</button>
+          <div id="loginStatus" class="tiny-log">可用账号：student/student123，teacher/teacher123，admin/admin123</div>
+        </form>
+        <div class="login-guides" aria-label="使用说明">
+          <button type="button" class="guide-btn" data-guide="student">学生使用说明</button>
+          <button type="button" class="guide-btn" data-guide="teacher">教师使用说明</button>
+          <button type="button" class="guide-btn" data-guide="admin">管理员说明</button>
+        </div>
+      </div>
+      <div id="guideModal" class="guide-modal hidden" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+        <div class="guide-dialog pixel-card">
+          <button id="guideCloseBtn" class="icon-btn guide-close" type="button" aria-label="关闭使用说明">×</button>
+          <div id="guideVisual" class="guide-visual" aria-hidden="true"></div>
+          <div class="guide-copy-panel">
+            <p id="guideEyebrow" class="eyebrow">Quick Guide</p>
+            <h2 id="guideTitle">使用说明</h2>
+            <p id="guideBody" class="muted"></p>
+            <ol id="guideSteps" class="guide-steps"></ol>
+            <div id="guideExample" class="guide-example"></div>
+            <div id="guideApiWindow" class="guide-api-window"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="appView" class="app-view hidden">
+      <header class="app-nav">
+        <div class="nav-brand">
+          <div class="brand-mark mini" aria-hidden="true">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <div>
+            <strong>CT-GraphMAS</strong>
+            <small>Pixel Academy</small>
+          </div>
+        </div>
+        <nav id="topNav" class="top-nav" aria-label="主导航"></nav>
+        <div class="user-box">
+          <div id="userAvatar" class="avatar">ST</div>
+          <div>
+            <strong id="userName">未登录</strong>
+            <small id="userRole">student</small>
+          </div>
+          <button id="logoutBtn" class="icon-btn" title="退出登录" aria-label="退出登录">⏻</button>
+        </div>
+      </header>
+
+      <main class="page-shell">
+        <section class="page active" data-page="home">
+          <div class="hero-band pixel-card">
+            <div>
+              <p class="eyebrow">Knowledge Graph · Multi-Agent · Computational Thinking</p>
+              <h2>从“代码生成器”走向可解释的编程伴学系统</h2>
+              <p>系统以淡蓝像素学院界面承载三篇论文成果：ADAPT 伴学强调连续支架，C-O-D-E-R 范式强调课堂流程编排，CT-GraphMAS 负责图谱增强与三层智能体协同。</p>
+            </div>
+            <div class="quest-board" aria-label="系统任务板">
+              <div><b>Route</b><span>图谱路由</span></div>
+              <div><b>Knowledge</b><span>相关知识</span></div>
+              <div><b>L1-L3</b><span>智能体协同</span></div>
+              <div><b>Gate</b><span>反代写门控</span></div>
+            </div>
+          </div>
+
+          <div id="statGrid" class="stat-grid"></div>
+
+          <div class="two-column">
+            <section class="pixel-card">
+              <div class="panel-title-row">
+                <h3 id="homeTaskTitle">我的班级任务</h3>
+                <button id="homeTaskButton" class="ghost-btn nav-jump" data-target="teaching">进入伴学</button>
+              </div>
+              <div id="homeTaskList" class="task-list"></div>
+            </section>
+            <section class="pixel-card">
+              <div class="panel-title-row">
+                <h3>把论文结论用起来</h3>
+                <button class="ghost-btn nav-jump" data-target="settings">进入设置</button>
+              </div>
+              <div id="homeTheoryList" class="theory-mini-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" data-page="daily">
+          <div class="student-grid chat-workspace">
+            <aside class="pixel-card control-stack">
+              <h3>日常通用模式</h3>
+              <p class="muted">你可以把平时遇到的小问题放在这里。系统会按设置页里的学习者画像检索图谱和相关知识，只给你必要提示、概念澄清和下一步行动，不展开完整课堂流程。</p>
+              <label>
+                表达风格
+                <select id="dailyStyle">
+                  <option value="companion" selected>同伴型</option>
+                  <option value="tutor">启发导师型</option>
+                  <option value="coach">严格教练型</option>
+                </select>
+              </label>
+              <div class="workflow-chip-grid">
+                <span>低干扰相关知识</span>
+                <span>概念澄清</span>
+                <span>最小样例</span>
+                <span>不强制套课堂流程</span>
+              </div>
+            </aside>
+
+            <section class="chat-panel pixel-card">
+              <div id="dailyMessages" class="messages">
+                <article class="message system-message">
+                  <strong>日常答疑就绪</strong>
+                  <p>你可以问“为什么报错”“这个概念是什么意思”“下一步先检查哪里”。需要按课堂流程推进时，再切换到教学伴学页。</p>
+                </article>
+              </div>
+              <form id="dailyChatForm" class="composer">
+                <textarea id="dailyMessageInput" rows="4">我只是日常问一下，Python 列表为什么会下标越界？</textarea>
+                <div class="composer-actions">
+                  <button type="button" id="dailySampleBtn" class="ghost-btn">日常示例</button>
+                  <button type="submit" class="primary-btn">快速答疑</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" data-page="teaching">
+          <div class="student-grid chat-workspace">
+            <aside class="pixel-card control-stack">
+              <h3>教学伴学参数</h3>
+              <input id="assistMode" type="hidden" value="teaching" />
+              <label>
+                表达风格
+                <select id="style">
+                  <option value="companion">同伴型</option>
+                  <option value="tutor" selected>启发导师型</option>
+                  <option value="coach">严格教练型</option>
+                </select>
+              </label>
+              <label>
+                教学流程
+                <select id="workflow">
+                  <option value="coder" selected>C-O-D-E-R</option>
+                  <option value="adapt">ADAPT</option>
+                  <option value="standard">标准辅导</option>
+                </select>
+              </label>
+              <div class="workflow-chip-grid">
+                <span>日常：相关知识 + 必要提示</span>
+                <span>教学：流程调度 + 智能体分工</span>
+                <span>ADAPT：诊断-支架-行动-练习-迁移</span>
+                <span>C-O-D-E-R：情境-编排-开发-调试-重构</span>
+                <span>图谱：知识点-先修-错误-相关知识</span>
+              </div>
+              <div id="modeInfo" class="tiny-log">教学模式会把 C-O-D-E-R/ADAPT 映射到 L1-L2-L3 调度链。</div>
+            </aside>
+
+            <section class="chat-panel pixel-card">
+              <div id="messages" class="messages">
+                <article class="message system-message">
+                  <strong>教学伴学就绪</strong>
+                  <p>你可以把课堂任务、项目活动或练习卡点放在这里。系统会按你在设置页选择的画像和流程，把 ADAPT 或 C-O-D-E-R 映射到 L1-L2-L3 智能体调度。</p>
+                </article>
+              </div>
+              <form id="chatForm" class="composer">
+                <textarea id="messageInput" rows="4">老师，我写 Python 列表循环时总是下标越界，怎么判断哪里错了？</textarea>
+                <div class="composer-actions">
+                  <button type="button" id="sampleBtn" class="ghost-btn">示例任务</button>
+                  <button type="submit" class="primary-btn">运行三层对话</button>
+                </div>
+              </form>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" data-page="teacher">
+          <div class="teacher-grid">
+            <section class="pixel-card">
+              <h3>教师学情看板</h3>
+              <div id="masteryList" class="mastery-list"></div>
+            </section>
+            <section class="pixel-card assignment-card">
+              <h3>班级任务分配</h3>
+              <p class="muted">你可以把 ADAPT、C-O-D-E-R 或标准辅导任务发布到指定班级；学生端只看到已经分配到自己班级的任务。</p>
+              <form id="assignmentForm" class="assignment-form">
+                <label>
+                  分配班级
+                  <input id="assignmentClass" value="八年级 Python 实验班" />
+                </label>
+                <label>
+                  适配画像
+                  <select id="assignmentProfile">
+                    <option value="novice">破冰期新手</option>
+                    <option value="intermediate" selected>建构期中等生</option>
+                    <option value="advanced">自动化期进阶生</option>
+                  </select>
+                </label>
+                <label>
+                  教学流程
+                  <select id="assignmentWorkflow">
+                    <option value="coder" selected>C-O-D-E-R</option>
+                    <option value="adapt">ADAPT</option>
+                    <option value="standard">标准辅导</option>
+                  </select>
+                </label>
+                <label>
+                  发布状态
+                  <select id="assignmentStatusSelect">
+                    <option value="已分配" selected>直接分配给学生</option>
+                    <option value="待发布">先保存为待发布</option>
+                    <option value="草稿">保存草稿</option>
+                  </select>
+                </label>
+                <label>
+                  截止时间
+                  <input id="assignmentDue" value="本周五" />
+                </label>
+                <label>
+                  任务标题
+                  <input id="assignmentTitle" value="列表条件筛选小项目" />
+                </label>
+                <label class="assignment-wide">
+                  任务说明
+                  <textarea id="assignmentDescription" rows="4">围绕班级项目完成需求澄清、列表建模、条件判断、输出解释和调试复盘。系统会按图谱路由动态分配 P1-P4 智能体。</textarea>
+                </label>
+                <button class="primary-btn" type="submit">分配到班级</button>
+                <div id="assignmentStatus" class="tiny-log">等待教师分配。学生端会自动按班级接收已分配任务。</div>
+              </form>
+            </section>
+            <section class="pixel-card">
+              <h3>任务编排</h3>
+              <div id="teacherTaskList" class="task-list"></div>
+            </section>
+            <section class="pixel-card wide-card">
+              <h3>最近交互记录</h3>
+              <div id="interactionList" class="interaction-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" data-page="graph">
+          <div class="graph-page-grid">
+            <section class="pixel-card graph-main">
+              <div class="panel-title-row">
+                <h3>知识图谱导航</h3>
+                <button id="refreshGraphBtn" class="ghost-btn">刷新图谱</button>
+              </div>
+              <div class="graph-toolbar">
+                <label>
+                  检索节点
+                  <input id="graphSearchInput" placeholder="输入知识点、智能体、错误类型或相关知识" />
+                </label>
+                <label>
+                  节点类型
+                  <select id="graphKindFilter">
+                    <option value="">全部类型</option>
+                  </select>
+                </label>
+                <button id="clearGraphSearchBtn" class="ghost-btn" type="button">清空</button>
+                <button id="resetGraphLayoutBtn" class="ghost-btn" type="button">复位</button>
+              </div>
+              <canvas id="graphCanvas" width="980" height="560"></canvas>
+              <div id="graphStatus" class="tiny-log">可搜索节点，也可以直接点击画布中的节点查看关系。</div>
+              <div id="graphLegend" class="legend"></div>
+            </section>
+            <aside class="pixel-card">
+              <h3>节点详情</h3>
+              <div id="graphSelected" class="graph-selected"></div>
+              <h3>检索结果</h3>
+              <div id="graphResultList" class="graph-result-list"></div>
+              <h3>图谱说明</h3>
+              <div id="graphSummary" class="graph-summary"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="page" data-page="knowledge">
+          <div class="knowledge-grid">
+            <section class="pixel-card knowledge-ingest">
+              <p class="eyebrow">Knowledge Base</p>
+              <h3>你的知识库</h3>
+              <p class="muted">你可以在这里上传教学材料。系统会自动完成切分、embedding，并把文档、相关知识和知识点写入知识库图谱。</p>
+              <input id="kbFileInput" type="file" accept=".txt,.md,.csv,.json,.docx" />
+              <button id="kbUploadBtn" class="primary-btn">上传到知识库</button>
+              <div id="kbUploadStatus" class="tiny-log">等待上传。支持 txt、md、csv、json、docx。</div>
+              <div id="kbCorpusStats" class="kb-stat-list"></div>
+            </section>
+
+            <section class="pixel-card knowledge-graph-main">
+              <div class="panel-title-row">
+                <h3>知识库图谱</h3>
+                <button id="kbRefreshBtn" class="ghost-btn" type="button">刷新</button>
+              </div>
+              <div class="graph-toolbar kb-toolbar">
+                <label>
+                  检索知识库
+                  <input id="kbSearchInput" placeholder="输入文档名、相关知识、知识点" />
+                </label>
+                <button id="kbClearBtn" class="ghost-btn" type="button">清空</button>
+              </div>
+              <canvas id="kbGraphCanvas" width="900" height="520"></canvas>
+              <div id="kbGraphStatus" class="tiny-log">点击文档、相关知识或知识点可以查看它在知识库中的连接。</div>
+            </section>
+
+            <aside class="pixel-card knowledge-side">
+              <h3>知识库节点</h3>
+              <div id="kbSelected" class="graph-selected"></div>
+              <h3>文档与相关知识</h3>
+              <div id="kbDocList" class="doc-list"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="page" data-page="corpus">
+          <div class="corpus-grid">
+            <section class="pixel-card">
+              <h3>语料入库</h3>
+              <p class="muted">上传教学材料后，系统会完成切分、embedding，并将相关知识与知识点建立 MENTIONS 关系。</p>
+              <input id="fileInput" type="file" accept=".txt,.md,.csv,.json,.docx" />
+              <button id="uploadBtn" class="primary-btn">上传并嵌入</button>
+              <div id="uploadStatus" class="tiny-log">等待语料</div>
+            </section>
+            <section class="pixel-card">
+              <h3>文档池</h3>
+              <div id="docList" class="doc-list"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" data-page="admin">
+          <div class="admin-grid">
+            <section class="pixel-card">
+              <h3>用户与角色</h3>
+              <div id="userTable" class="user-table"></div>
+            </section>
+            <section class="pixel-card">
+              <h3>系统边界</h3>
+              <div class="policy-list">
+                <article><b>反代写门控</b><span>你可以把完整代码请求降级为提示、伪代码和局部检查。</span></article>
+                <article><b>相关知识边界</b><span>你可以让系统只围绕当前路由节点扩展必要关系，避免上下文过载。</span></article>
+                <article><b>语料注入</b><span>你可以只启用少量高相关知识，让反馈保持清晰和可解释。</span></article>
+                <article><b>教师可监督</b><span>你可以复盘和校准交互记录、图谱相关知识与课堂支架。</span></article>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" data-page="settings">
+          <div class="settings-hero pixel-card">
+            <p class="eyebrow">System Settings</p>
+            <h2>设置页面</h2>
+            <p>你可以在这里统一配置学习者画像、多智能体编排、API 接入、输出边界和课堂运行偏好；系统会按你当前的身份，把这些设置落到对应的学习、教学或管理流程里。</p>
+          </div>
+          <div class="settings-grid">
+            <section class="neo-card">
+              <p class="eyebrow">Agent Orchestration</p>
+              <h3>多智能体配置</h3>
+              <p class="muted">你可以配置学习者画像、默认工作模式、路由分配策略、教学流程、表达风格和参与协同的 L2 智能体。系统动态分配会依据 L1 诊断和路由结论自动选择 P1/P2/P3/P4。</p>
+              <form id="agentSettingsForm" class="settings-form">
+                <label>
+                  学习者画像
+                  <select id="defaultProfile">
+                    <option value="novice">破冰期新手</option>
+                    <option value="intermediate">建构期中等生</option>
+                    <option value="advanced">自动化期进阶生</option>
+                  </select>
+                </label>
+                <label>
+                  默认模式
+                  <select id="defaultMode">
+                    <option value="daily">日常通用模式</option>
+                    <option value="teaching">教学模式</option>
+                  </select>
+                </label>
+                <label>
+                  智能体分配策略
+                  <select id="assignmentPolicy">
+                    <option value="dynamic">系统动态分配</option>
+                    <option value="manual">手动指定智能体</option>
+                  </select>
+                </label>
+                <label>
+                  默认教学流程
+                  <select id="defaultWorkflow">
+                    <option value="standard">标准辅导</option>
+                    <option value="coder">C-O-D-E-R</option>
+                    <option value="adapt">ADAPT</option>
+                  </select>
+                </label>
+                <label>
+                  默认表达风格
+                  <select id="defaultStyle">
+                    <option value="companion">同伴型</option>
+                    <option value="tutor">启发导师型</option>
+                    <option value="coach">严格教练型</option>
+                  </select>
+                </label>
+                <label>
+                  相关知识注入策略
+                  <select id="evidencePolicy">
+                    <option value="route-evidence">系统动态相关知识</option>
+                    <option value="graph-first">图谱优先</option>
+                    <option value="corpus-first">语料优先</option>
+                    <option value="minimal">最小相关知识</option>
+                  </select>
+                </label>
+                <label class="check-row agent-option">
+                  <input id="agentP1" type="checkbox" />
+                  P1 问题分解智能体
+                </label>
+                <label class="check-row agent-option">
+                  <input id="agentP2" type="checkbox" />
+                  P2 抽象建模智能体
+                </label>
+                <label class="check-row agent-option">
+                  <input id="agentP3" type="checkbox" />
+                  P3 算法设计智能体
+                </label>
+                <label class="check-row agent-option">
+                  <input id="agentP4" type="checkbox" />
+                  P4 调试评价智能体
+                </label>
+                <label class="check-row agent-option">
+                  <input id="antiGhostwrite" type="checkbox" />
+                  启用反代写门控
+                </label>
+                <button class="primary-btn" type="submit">保存多智能体配置</button>
+                <div id="agentSettingsStatus" class="tiny-log">配置会保存在当前浏览器，用于本地演示与论文系统展示。</div>
+              </form>
+            </section>
+            <section class="neo-card">
+              <p class="eyebrow">API Configuration</p>
+              <h3>模型 API 设置</h3>
+              <p class="muted">你可以在这里配置 OpenAI-compatible、本地模型或学校自建网关。当前原型仍可在无 API 情况下运行；填写后可作为后续替换 L2 智能体和 embedding 模型的统一入口。</p>
+              <form id="settingsForm" class="settings-form">
+                <label>
+                  服务提供方
+                  <select id="apiProvider">
+                    <option value="openai-compatible">OpenAI Compatible</option>
+                    <option value="openai">OpenAI</option>
+                    <option value="deepseek">DeepSeek</option>
+                    <option value="qwen">通义千问</option>
+                    <option value="local-demo">本地演示</option>
+                  </select>
+                </label>
+                <label>
+                  Base URL
+                  <input id="apiBaseUrl" placeholder="https://api.openai.com/v1" />
+                </label>
+                <label>
+                  API Key
+                  <input id="apiKey" type="password" placeholder="保存后将以掩码显示" />
+                </label>
+                <label>
+                  对话模型
+                  <input id="chatModel" placeholder="gpt-4.1-mini / deepseek-chat / qwen-plus" />
+                </label>
+                <label>
+                  Embedding 模型
+                  <input id="embeddingModel" placeholder="text-embedding-3-small / bge-m3" />
+                </label>
+                <label>
+                  Temperature
+                  <input id="temperature" type="number" min="0" max="2" step="0.1" />
+                </label>
+                <label class="check-row">
+                  <input id="apiEnabled" type="checkbox" />
+                  启用外部 API
+                </label>
+                <button class="primary-btn" type="submit">保存 API 设置</button>
+                <div id="settingsStatus" class="tiny-log">设置仅保存在本地 SQLite 中。</div>
+              </form>
+            </section>
+            <section class="neo-card">
+              <h3>接入位置</h3>
+              <div class="policy-list">
+                <article><b>L2 智能体生成</b><span>你可以把 P1/P2/P3/P4 的规则模板逐步替换为真实模型调用。</span></article>
+                <article><b>语料 Embedding</b><span>你可以把当前 hashing embedding 替换为配置的 embedding 模型。</span></article>
+                <article><b>教学门控</b><span>你需要让外部模型输出继续经过反代写、认知适配和教师监督边界。</span></article>
+                <article><b>图谱增强</b><span>你可以要求模型回答携带当前路由相关知识、图谱节点或教师配置的语料来源。</span></article>
+              </div>
+            </section>
+            <section class="neo-card">
+              <p class="eyebrow">Prompt Workflow</p>
+              <h3>核心提示词与工作流</h3>
+              <p class="muted">这里把测试脚本中的 L1-L2-L3 提示词、145 节点意图映射、2-hop 学情抽取和动态路由流程写入系统。你可以在配置 API 后逐步把本地演示智能体替换为真实模型调用。</p>
+              <div id="runtimeDesign" class="runtime-design"></div>
+              <div id="workflowTimeline" class="workflow-timeline"></div>
+              <div id="promptWorkflowList" class="prompt-workflow-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

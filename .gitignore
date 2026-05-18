@@ -1,0 +1,26 @@
+# Python cache and local virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local runtime data. The SQLite database is generated on first run.
+data/*.sqlite
+data/*.sqlite3
+data/*.db
+*.log
+
+# Local secrets and machine-specific settings
+.env
+.env.*
+*.local
+
+# macOS and editor metadata
+.DS_Store
+*.swp
+*.swo
+
+# Temporary render/export artifacts
+tmp/
+dist/
+build/
